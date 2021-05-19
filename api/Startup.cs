@@ -1,20 +1,15 @@
 using api.Extensions;
 using api.Models;
+using api.Models.DataManager;
+using api.Models.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace api
 {
@@ -33,6 +28,7 @@ namespace api
             services.ConfigureCors();
             services.ConfigureIISIntegration();
             services.AddDbContext<UserContext>(options => options.UseSqlServer(Configuration["ConnectionString:UserDB"]));
+            services.AddScoped<IDataRepository, UserManager>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
